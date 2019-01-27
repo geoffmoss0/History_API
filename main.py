@@ -1,6 +1,4 @@
 from flask import Flask, jsonify, request
-import sqlite3
-from sqlite3 import Error
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, Integer, String, Table
@@ -26,41 +24,6 @@ class User(Base):
         self.name = name
         self.data = data
         self.number = number
-
-
-def create_conn():
-    try:
-        conn = sqlite3.connect("data.db")
-        return conn
-    except Error as e:
-        print(e)
-    return None
-
-
-@app.route("/add/", methods=["POST"])
-def add_data():
-    data_in = request.form
-    print(request.form)
-    conn = create_conn()
-    c = conn.cursor()
-
-    print(data_in.get('username'))
-    c.execute('INSERT INTO Users(username, data, number) Values ("{}", "{}", {});'.format(data_in.get('username'), data_in.get('data'), data_in.get('number')))
-    return str(data_in)
-
-
-@app.route("/look/", methods=["GET"])
-def look():
-    conn = create_conn()
-    c = conn.cursor()
-    c.execute("SELECT * FROM Users")
-    rows = c.fetchall()
-    print(len(rows))
-    for row in rows:
-        # out.append("username: " + str(row[0]) + ", data: " + str(row[1]) + ", number: " + str(row[2]))
-        print(row)
-
-    return "At least it'll say something"
 
 
 def main():
