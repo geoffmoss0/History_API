@@ -12,7 +12,8 @@ def make_post():
         'number': 50,
     }
 
-    ans = requests.post(url="http://localhost:5000/add/", data=data)
+    ans = requests.post(url="http://localhost:5000/add", data=data)
+    print(ans)
 
 
 if __name__ == "__main__":
